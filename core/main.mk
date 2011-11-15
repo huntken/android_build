@@ -39,12 +39,21 @@ endif
 
 # check for broken versions of make
 ifeq (0,$(shell expr $$(echo $(MAKE_VERSION) | sed "s/[^0-9\.].*//") = 3.81))
+ifneq (0,$(shell expr $$(echo $(MAKE_VERSION) | sed "s/[^0-9\.].*//") = 3.82))
+$(warning ********************************************************************************)
+$(warning * Due to bug http://savannah.gnu.org/bugs/?33125 Android cannot be built with)
+$(warning * stock make 3.82. If you get a build error, you can fix it by applying the)
+$(warning * patch attached to that bug report. Most distros shipping make 3.82 already)
+$(warning * include that patch.)
+$(warning ********************************************************************************)
+else
 $(warning ********************************************************************************)
 $(warning *  You are using version $(MAKE_VERSION) of make.)
 $(warning *  Android can only be built by version 3.81.)
 $(warning *  see http://source.android.com/source/download.html)
 $(warning ********************************************************************************)
 $(error stopping)
+endif
 endif
 
 TOP := .
