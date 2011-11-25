@@ -45,6 +45,7 @@ PRODUCT_PACKAGES := \
     apache-xml \
     bouncycastle \
     bu \
+    busybox \
     cacerts \
     com.android.location.provider \
     com.android.location.provider.xml \
@@ -58,6 +59,7 @@ PRODUCT_PACKAGES := \
     dmtracedump \
     dx \
     ext \
+    ffmpeg \
     filterfw \
     framework-res \
     hprof-conv \
@@ -96,8 +98,11 @@ PRODUCT_PACKAGES := \
     libwebrtc_audio_preprocessing \
     libwilhelm \
     libz \
+    lrzsz \
     screencap \
-    sensorservice
+    sensorservice \
+    wpa_supplicant.conf \
+    x264
 
 # host-only dependencies
 ifeq ($(WITH_HOST_DALVIK),true)
