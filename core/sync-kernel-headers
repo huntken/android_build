@@ -5,21 +5,28 @@ else
 	cd `dirname $0`/../..
 	TOP="`pwd`"
 fi
-echo "Running in $TOP" >/tmp/sucking
 if ! [ -d "$TOP"/bionic/libc ]; then
-	echo "Usage: $0 /path/to/Android/source" >/dev/stderr
+	echo "Usage: $0 /path/to/Android/source" >&2
 	exit 1
 fi
 if ! [ -d "$TOP"/kernel ]; then
-	echo "No kernel found in $1/kernel" >/dev/stderr
+	echo "No kernel found in $1/kernel" >&2
 	exit 0
 fi
-echo "Actually running" >>/tmp/sucking
-cd "$TOP/kernel"
-make headers_install V=1 ARCH=arm INSTALL_HDR_PATH="$TOP"/external/kernel-headers/current &>>/tmp/sucking
-# Some files commonly not marked as exporting public bits...
-for i in include/video/*; do
-	[ -f $i ] || continue
-	[ -e "$TOP"/external/kernel-headers/current/$i ] || cp -f $i "$TOP"/external/kernel-headers/current/$i
-done
-"$TOP/bionic/libc/kernel/tools/update_all.py" "$TOP/external/kernel-headers/current/include" &>>/tmp/sucking
+
+if false; then
+	# This is actually the right thing to do...
+	cd "$TOP/kernel"
+	make headers_install V=1 ARCH=arm INSTALL_HDR_PATH="$TOP"/external/kernel-headers/current &>/proc/self/fd/2
+	# Some files commonly not marked as exporting public bits...
+	for i in include/video/*; do
+		[ -f $i ] || continue
+		[ -e "$TOP"/external/kernel-headers/current/$i ] || cp -f $i "$TOP"/external/kernel-headers/current/$i
+	done
+	"$TOP/bionic/libc/kernel/tools/update_all.py" "$TOP/external/kernel-headers/current/include" &>/proc/self/fd/2
+else
+	# ...But until update_all.py is improved a lot, this produces more workable results
+	if [ -e "$TOP"/kernel/include/video/dsscomp.h ]; then
+		cp -f "$TOP"/kernel/include/video/dsscomp.h "$TOP"/bionic/libc/kernel/common/video/
+	fi
+fi
