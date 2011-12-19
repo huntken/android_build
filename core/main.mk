@@ -168,7 +168,8 @@ $(shell echo 'VERSIONS_CHECKED := $(VERSION_CHECK_SEQUENCE_NUMBER)' \
 endif
 
 $(info syncing Bionic headers with kernel headers)
-$(shell if test -d $(TOPDIR)/kernel; then WD=`pwd`; cd $(TOPDIR)/kernel; $(MAKE) headers_install ARCH=arm INSTALL_HDR_PATH=$(TOPDIR)/external/kernel-headers/current;  cd .. ; ./bionic/libc/kernel/tools/update_all.py $(TOPDIR)/external/kernel-headers/current; cd $$WD; fi)
+$(shell $(BUILD_SYSTEM)/sync-kernel-headers)
+$(info done)
 
 # These are the modifier targets that don't do anything themselves, but
 # change the behavior of the build.
