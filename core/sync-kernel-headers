@@ -28,5 +28,6 @@ else
 	# ...But until update_all.py is improved a lot, this produces more workable results
 	if [ -e "$TOP"/kernel/include/video/dsscomp.h ]; then
 		cp -f "$TOP"/kernel/include/video/dsscomp.h "$TOP"/bionic/libc/kernel/common/video/
+		sed -i -e 's,define DSSCOMP,define DSSCIOC,g' "$TOP"/bionic/libc/kernel/common/video/dsscomp.h
 	fi
 fi
