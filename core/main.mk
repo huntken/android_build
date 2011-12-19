@@ -167,9 +167,9 @@ $(shell echo 'VERSIONS_CHECKED := $(VERSION_CHECK_SEQUENCE_NUMBER)' \
         > $(OUT_DIR)/versions_checked.mk)
 endif
 
-$(info syncing Bionic headers with kernel headers)
-$(shell $(BUILD_SYSTEM)/sync-kernel-headers)
-$(info done)
+#$(info syncing Bionic headers with kernel headers)
+#$(shell $(BUILD_SYSTEM)/sync-kernel-headers)
+#$(info done)
 
 # These are the modifier targets that don't do anything themselves, but
 # change the behavior of the build.
